@@ -1,5 +1,8 @@
 # Data Science1
 
+コードはjupyter形式で保存したものです。
+jupyterで確認してください。
+
 ## SIGNATE登録
 
 様々な練習問題のデータがあるので利用して他人のデータ分析と比較できたりする。
@@ -54,5 +57,30 @@ PandasのDataFrameは便利な関数やプロパティを使用することが�
 
 * shapeプロパティは行数と列数を表示します。
 
+今回はまずPandasのread_csv関数で、ダウンロードしてきた「【練習問題】お弁当の需要予測」のデータ、train.csv、test.csv、sample.csvをDataFrameとして読み込みます。
 
+次に、header関数やtail関数を使用してデータを表示させます。
+
+import文の記述は次の通りです。
+
+```
+import pandas as pd
+import numpy as np
+from matplotlib import pyplot as plt
+%matplotlib inline
+```
+
+read_csv関数は次のように記述します。
+
+```
+train = pd.read_csv("train.csv")
+```
+
+header()は次のように記述します。
+
+```
+train.head()
+```
+
+詳細はjupyterでコードを確認してください。
 
