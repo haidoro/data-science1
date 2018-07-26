@@ -43,6 +43,10 @@ from matplotlib import pyplot as plt
 ### pandasを使ってデータ表示
 
 Pandasは外部のデータをPythonに取り込み、表として表示してくれたり集計したりと非常に便利なライブラリです。
+  
+今回はまず、case1フォルダにjupyterでlesson1.ipynbファイルを作成します。  
+次に、「【練習問題】お弁当の需要予測」のデータ、train.csv、test.csv、sample.csvをcase1フォルダに用意します。  
+これらのファイルを使ってデータを分析します。
 
 * Pandasについては[Pythonの勧め（3）Pandasについて](https://itstudio.co/2018/01/25/7502/)を参照ください。
 
