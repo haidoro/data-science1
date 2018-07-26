@@ -125,3 +125,98 @@ train[train["week"]=="月"] #曜日が月となっているデータのみ表示
 train[["y","week"]]
 ```
 
+## Lesson3グラフの描画
+
+グラフの描画はMatplotlibを使います。  
+[Matplotlibでグラフを描画](https://itstudio.co/2018/01/22/7432/)を参考にしてください。
+
+グラフの描画はまずどの値を使うか決めます。  
+今回はy（販売数量）の値をグラフ化します。
+
+カラムの指定は前回までに練習した辞書形式で呼び出します。
+あとはplot関数を指定するだけです。
+
+```
+train["y"].plot()
+```
+サイズを指定する場合は引数に縦横比を次の例のように記述します。
+
+```
+train["y"].plot(figsize=(12,4))
+```
+グラフにタイトルをつける場合も引数で指定
+
+```
+train["y"].plot(figsize=(12,4),title="販売数量推移")
+```
+タイトルが文字化けします。  
+matplotlibは日本語に対応していません。
+
+### matplotlibは日本語化対処方法
+
+日本語フォントが入ってないため文字化けしています。
+フリーフォントを見つけてきて下記の通り実行してみます。
+
+* macの場合は`/Users/YOUR_NAME/anaconda3/lib/python3.6/site-packages/matplotlib/mpl-data/fonts/ttf`の中にコピーします。
+  
+ただし、Homebrewでインストールした場合は、`/Users/YOUR_NAME/.pyenv/versions/anaconda3-5.2.0/lib/python3.6/site-packages/matplotlib/mpl-data/fonts`となります。anaconda3-5.2.0などのバージョン番号は自分の環境に合わせてください。
+
+* windowsの場合はC:\Anaconda\Lib\site-packages\matplotlib\mpl-data\fonts\ttfの中にコピー
+
+matplotlibrcというファイル`/Users/tahara/.pyenv/versions/anaconda3-5.2.0/lib/python3.6/site-packages/matplotlib/mpl-data`の中身を下記のように変更します。
+
+1. エディタでmatplotlibrcファイルを開く
+2. #font.familyで検索をかける
+3. #font.family : sans-serifという行がヒットするので、その行をコピー
+4. 上記の行の下の行にコピーしたものを貼り付ける
+5. 貼り付け後、貼り付けた行を次のように書きなおす。`#font.family : sans-serif　⇒　font.family : フォント名`
+6. 保存
+
+うまくいかない場合は英語表示でいきましょう。
+
+## ヒストグラム描画
+
+ヒストグラムの描画は次の記述をします。
+
+```
+train["y"].plot.hist()
+```
+
+グリッド線が必要な場合は以下
+
+```
+train["y"].plot.hist(grid=True)
+```
+
+画像として書き出すには次のようにします。
+
+```
+train["y"].plot.hist(figsize=(12,4),title="ヒストグラム")
+plt.savefig("sample1.png")
+```
+
+## 箱ひげ図
+
+箱ひげ図はデータ分布を確認するための図
+中央値、上側ヒンジ、下側ヒンジ、並びに最大値、最小値を表すものです。
+
+箱ひげ図を描くときは2つの値を指定します。
+
+今回は販売数（y）と　weekを指定します。  
+その指定方法は`train[["y","week"]]`のコードです。  
+x軸に指定したいカラムは`boxplot(by="week")`とします。
+
+```
+train[["y","week"]].boxplot(by="week")
+```
+
+これで箱ひげ図が描けます。
+
+
+
+
+
+
+
+
+
