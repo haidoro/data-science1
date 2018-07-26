@@ -1,7 +1,7 @@
 # Data Science1
 
 コードはjupyter形式で保存したものです。
-jupyterで確認してください。
+GitHub優れもので、jupyter形式のファイルも表示してくれます。
 
 ## SIGNATE登録
 
@@ -82,5 +82,5 @@ header()は次のように記述します。
 train.head()
 ```
 
-詳細はjupyterでコードを確認してください。
+詳細はコードを確認してください。
 
