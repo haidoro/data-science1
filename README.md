@@ -31,7 +31,10 @@ GitHub優れもので、jupyter形式のファイルも表示してくれます�
 
 基礎分析とは、データの不足を補ったり、間違ったデータを省く
 
-## Lesson1 データの読み込み
+## Lesson1 Pandasを使ったデータの読み込み
+
+### ライブラリの読み込み
+
 import文は次のようにします。
 ```
 import pandas as pd
@@ -87,4 +90,38 @@ train.head()
 ```
 
 詳細はコードを確認してください。
+
+## Lesson2 Pamdasを使ってさらに詳細なデータ表示
+
+基本統計量の表示を行うdescribe関数
+
+describe() メソッドをでは、件数 (count)、平均値 (mean)、標準偏差 (std)、最小値(min)、第一四分位数 (25%)、中央値 (50%)、第三四分位数 (75%)、最大値 (max) を確認することができます。
+
+```
+train = pd.read_csv("train.csv")
+train.describe()
+```
+
+* データの型はinfo関数で確認できます。
+
+あるカラムだけ表示するには辞書型の表示をさせます。
+```
+train = pd.read_csv("train.csv")
+train["y"]
+````
+
+特定のカラムの平均値、中央値、また条件設定もできます。
+```
+train["y"].mean() #平均値
+train["y"].median() #中央値
+train[train["y"] >= 150] #150以上のデータを表示
+train[train["week"]=="月"] #曜日が月となっているデータのみ表示
+```
+
+カラムを2つ指定する場合は次のように記述
+例はyとweekの2つのカラムを指定
+
+```
+train[["y","week"]]
+```
 
