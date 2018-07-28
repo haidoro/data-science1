@@ -212,7 +212,7 @@ train[["y","week"]].boxplot(by="week")
 
 これで箱ひげ図が描けます。
 
-## 欠損値
+## Lesson4 欠損値
 
 欠損値とはなんらかの理由によりデータの値が入ってないことを言います。
 欠損値が有るか無いかは`isnull()`関数で確認できます。
@@ -260,7 +260,7 @@ train.dropna(subset=["kcal"])
 train["precipitation"].value_counts()
 ```
 
-## 相関関係
+## Lesson5 相関関係
 
 - 相関関係とは、Aという事象とBという事象の間、双方向の動きに関係があることを言います
 - 例えば、気温が上がると弁当の売り上げ数もあがる関係があった場合、正の相関があると言ったりします
@@ -284,7 +284,113 @@ train[["y","temperature"]].corr()
 train.plot.scatter(x="temperature",y="y",figsize=(5,5))
 ```
 
+## Lesson6 予測モデル作成
 
+### ポイント
+* 予測を行うには基礎分析をまず行う。
+* 学習のしすぎによって判断の基準が厳しくなるため、少しでもパターンが異なると誤った答えを出力してしまう場合がある。このことを過学習という。
 
+### 目的変数と説明変数
+目的変数（出力変数）：予測したい商品の売り上げ実績
+説明変数（入力変数）：予測のヒントになりそうなもの　天気、気温、来店客数など。単回帰分析は一つだけ説明変数をとる。
 
+### 代表的な予測問題
+1. 回帰問題...目的変数が数値
+2. 分類問題...目的変数がカテゴリ
 
+回帰分析を行うには、学習と推論のフェーズがある。
+
+* 汎用的な予測モデルを作成するには、元になるデータセットがあるとこれを2分割し、片方を学習モデル、もう一方を評価モデルとする。
+
+# お弁当大作戦
+
+* ミッション
+ * お弁当の売り上げを予測して、廃棄ロスや機会損失をカット
+ * 予測モデル：回帰問題
+ * 今回のモデル
+  * 単回帰モデル　y = ax + b
+  * 重回帰モデル
+
+## 必要なPythonのライブラリ
+
+今回は`sklearn`を使います。
+`sklearn`（サイキット・ラーン）はPythonの代表的な機械学習のライブラリです。
+
+ライブラリのimport  
+```
+import pandas as pd
+import numpy as np
+from matplotlib import pyplot as plt
+%matplotlib inline
+from sklearn.linear_model import LinearRegression as LR
+```
+
+### 説明変数と目的変数を決める
+
+説明変数：temperature
+目的変数：y
+
+```
+trainX = train["temperature"]
+y = train["y"]
+```
+
+### 単回帰の場合必要な処理
+
+説明変数のデータに`values.reshape(-1,1)`処理が必要です。
+
+```
+trainX = trainX.values.reshape(-1,1)
+testX = testX.values.reshape(-1,1)
+```
+
+### 回帰モデルの変数を準備
+
+```
+model1 = LR()
+```
+
+### 単回帰モデル作成
+
+fit関数を使い、第1引数に「説明変数」、第2引数に「目的変数」
+
+```
+model1.fit(trainX,y)
+```
+
+### モデルの傾きや切片を求める
+
+傾きはcoef_を使います。
+
+```
+model1.coef_
+```
+
+切片はintercept_を使います。
+
+```
+model1.intercept_
+```
+
+### 予測
+
+predict関数を使います。
+
+```
+pred = model1.predict(testX)
+```
+
+sample[1]に予測結果を代入
+
+```
+sample[1] = pred
+sample.head()
+```
+
+### sampleファイル書き出し
+
+書き出しは`to_csv関数`を使います。
+
+```
+sample.to_csv("submit1.csv",index=None,header=None)
+```
