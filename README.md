@@ -394,3 +394,81 @@ sample.head()
 ```
 sample.to_csv("submit1.csv",index=None,header=None)
 ```
+
+## モデルの評価
+予想値と実測値から誤差を求める。
+モデルの評価は評価関数を用いる。モデルの予測制度を評価する数式でRMSE(Root Mean Square Error) がある。式は次の通りで平均二乗誤差とも言われる。ん、標準偏差のこと？データサイエンスでは度々使われる式ですから意味など熟知しておくと良いです。
+
+![ds1](images/ds1.png)
+
+評価関数はそのほかにもAUC,LogLoss,Accuracy,Precision,Recall,MAE,MAP@N,nDOGなどがある。
+
+## Lesson7 10回帰モデル
+
+2つ以上の説明変数を使ったもの。
+y = ax1 + bx2 + cx3
+
+天気などはダミー変数を使う。晴れ=>1 雨=>0 曇り=>0などのようにしてマトリックスを作る。
+
+trainのweekの値がそれぞれいくつあるかは`value_counts()`で調べます。
+
+```
+train["week"].value_counts()
+```
+
+trainのweekをダミー変数化するには`pd.get_dummies`関数を使います。
+
+```
+pd.get_dummies(train["week"])
+```
+
+trainからweekとtemperatureを抜きだし、ダミー変数化したものを説明変数trainXに代入します。今回はweekとtemperatureの2つを用意します。書き方は次の通り。
+
+```
+trainX = pd.get_dummies(train[["week","temperature"]])
+```
+目的変数を用意
+
+```
+y = train["y"]
+```
+
+回帰モデル用の変数を用意します。
+
+```
+model = LR()
+```
+
+重回帰モデルの作成
+
+```
+model.fit(trainX,y)
+```
+
+### 切片と傾きを求める
+
+傾きはで`model.coef_`求め、切片は`model.intercept_`で求めます。
+
+### 予測結果
+
+testからweekとtemperatureを抜きだし、ダミー変数化したものを変数testXに代入
+
+```
+testX = pd.get_dummies(test[["week","temperature"]])
+```
+
+modelとtestXを使って予測をして、予測結果を変数名predに代入
+
+```
+pred = model.predict(testX)
+```
+
+sample[1]にpredを代入して、"submit3.csv"というファイル名でファイル出力
+
+```
+sample[1] = pred
+sample.to_csv("submit3.csv",index=None,header=None)
+```
+
+重回帰モデルにしたと言っても必ずしも良い結果になるとは限りません。
+
