@@ -472,3 +472,68 @@ sample.to_csv("submit3.csv",index=None,header=None)
 
 重回帰モデルにしたと言っても必ずしも良い結果になるとは限りません。
 
+## Lesson8 特徴量（説明変数）
+特徴量を設定することで予測精度を上げることができる
+与えられたデータや外部データを加工し、予測の手がかりとなりそうな新たな特徴を作ること
+
+* 基本統計量を作る：平均値を活用
+* データを集約する：年齢層別にする
+特徴量が多いと過学習になる
+* 単変異解析
+* モデルベース選択
+* 反復選択
+
+販売数のyの推移を見ると時間の推移と共に落ち込みが出ている。
+そのため、特徴量として時間（年月）を指定して精度の変化をみる。
+
+trainのdatetimeから年と月のデータを取り出し、trainの新たなカラムとして追加してこれを特徴量とする。
+
+datetimeの値から年と月を抜き出すにはPythonの`sprit()`関数を使う。
+`apply()`関数はデータを変換するものです。`lambda`は無名関数ということです。
+
+`lambda x :x.split("-")[0]`をJavaScript的に書くと`function(x){x.split("-")[0]}`となります。
+
+この際、取り出した値はobject型のため、int型に変更します。
+
+```
+train["year"] = train["year"].astype(np.int)
+train["month"] = train["month"].astype(np.int)
+```
+
+train,testからyearとmonthを取り出し、変数trainX,testXに代入
+
+```
+trainX = train[["year","month"]]
+testX = test[["year","month"]]
+```
+
+重回帰モデル作成
+
+```
+model1 = LR()
+
+model1.fit(trainX,y)
+```
+
+切片と傾きの確認
+
+`model1.coef_`で切片、`model1.intercept_`で傾きが得られる。
+
+testXを使って予測をし、予測結果を変数predに代入
+
+```
+pred = model1.predict(testX)
+```
+
+## 特徴量の作成
+* trainXに対して予測を行えば、実際の売り上げyがわかっているので、その差を比較することができます
+* そこでtrainXに対する予測値と、実際の売り上げyとを引き算することで、どの日が大きく予測を外していたかを確認します
+* 大きく外れていたものから共通する要素が見つけられれば、その要素を加えることで更に精度が良いモデルを作れる可能性があります
+* その準備として、まずmodel1とtrainXを使って、trainXに対する予測値を求めましょう
+
+今回は「お楽しみメニュー」を特徴量に設定
+
+
+
+
+
